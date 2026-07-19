@@ -1,37 +1,46 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { EPISODES, SEASON_COLORS } from '../episodes'
 
-/** 桌面端：按季分组的期数胶囊 */
+/** 桌面端：按季分组的期数胶囊（带悬浮气泡） */
 function EpisodePills() {
   const { pathname } = useLocation()
   const seasons = [...new Set(EPISODES.map((e) => e.season))]
 
   return (
-    <div className="hidden lg:flex items-center gap-1 rounded-full border border-slate-800 bg-slate-900/60 px-1.5 py-1">
+    <div className="hidden lg:flex items-center gap-0.5 rounded-full border border-slate-800 bg-slate-900/60 px-2 py-1">
       {seasons.map((season, si) => (
-        <div key={season} className="flex items-center gap-1">
-          {si > 0 && <span className="w-px h-4 bg-slate-700/80 mx-1.5" />}
+        <div key={season} className="flex items-center gap-0.5">
+          {si > 0 && <span className="w-px h-4 bg-slate-700/80 mx-2" />}
           <span
-            className="w-1.5 h-1.5 rounded-full ml-1"
-            style={{ backgroundColor: SEASON_COLORS[season].dot }}
-            title={SEASON_COLORS[season].label}
-          />
+            className="font-mono text-[10px] font-semibold mr-0.5"
+            style={{ color: SEASON_COLORS[season].dot }}
+          >
+            S{season}
+          </span>
           {EPISODES.filter((e) => e.season === season).map((e) => {
             const active = pathname.startsWith(e.path)
             return (
-              <Link
-                key={e.path}
-                to={e.path}
-                className={`px-2 py-1 rounded-full font-mono text-xs transition-all ${
-                  active
-                    ? 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_12px_rgba(99,102,241,0.5)]'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
-                }`}
-              >
-                {e.navLabel}
-              </Link>
+              <span key={e.path} className="relative group">
+                <Link
+                  to={e.path}
+                  className={`block px-2 py-1 rounded-full font-mono text-xs transition-all ${
+                    active
+                      ? 'bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-[0_0_12px_rgba(99,102,241,0.5)]'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+                  }`}
+                >
+                  {e.navLabel}
+                </Link>
+                {/* 悬浮气泡 */}
+                <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 whitespace-nowrap rounded-lg border border-slate-700 bg-night-card px-2.5 py-1.5 text-xs text-slate-200 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all shadow-xl">
+                  <span className="font-mono text-[10px] mr-1.5" style={{ color: SEASON_COLORS[season].dot }}>
+                    S{season}
+                  </span>
+                  {e.navTitle}
+                </span>
+              </span>
             )
           })}
         </div>
@@ -93,10 +102,37 @@ function MobileMenu() {
   )
 }
 
+/** 滚动监听：当前可视的章节 id */
+function useScrollSpy(ids) {
+  const [activeId, setActiveId] = useState(null)
+
+  useEffect(() => {
+    if (ids.length === 0) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) setActiveId(en.target.id)
+        })
+      },
+      { rootMargin: '-30% 0px -60% 0px' }
+    )
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [ids])
+
+  return activeId
+}
+
 /**
  * @param {Array<{href,label}>} sections 当前页的章节锚点（可选）
  */
 export default function Navbar({ sections = [] }) {
+  const ids = sections.map((s) => s.href.slice(1))
+  const activeId = useScrollSpy(ids)
+
   return (
     <nav className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-night/70 border-b border-slate-800/60">
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between gap-4">
@@ -106,12 +142,23 @@ export default function Navbar({ sections = [] }) {
         </Link>
 
         {sections.length > 0 && (
-          <div className="hidden md:flex items-center gap-5 text-sm text-slate-400">
-            {sections.map((s) => (
-              <a key={s.href} href={s.href} className="hover:text-cyan-300 transition-colors">
-                {s.label}
-              </a>
-            ))}
+          <div className="hidden xl:flex items-center gap-1 text-sm">
+            {sections.map((s) => {
+              const active = activeId === s.href.slice(1)
+              return (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  className={`px-3 py-1 rounded-full transition-colors ${
+                    active
+                      ? 'text-cyan-300 bg-cyan-500/10'
+                      : 'text-slate-400 hover:text-cyan-300'
+                  }`}
+                >
+                  {s.label}
+                </a>
+              )
+            })}
           </div>
         )}
 
