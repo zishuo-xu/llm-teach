@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-night: #0a0f1e;
+  --color-night-soft: #101830;
+  --color-night-card: #131c38;
+
+  --color-token-0: #22d3ee;
+  --color-token-1: #a78bfa;
+  --color-token-2: #fb923c;
+  --color-token-3: #4ade80;
+  --color-token-4: #f472b6;
+  --color-token-5: #facc15;
+  --color-token-6: #60a5fa;
+  --color-token-7: #f87171;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-night);
+  color: #e2e8f0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* 细滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #24304f;
+  border-radius: 4px;
+}
