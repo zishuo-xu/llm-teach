@@ -57,6 +57,7 @@ export default function Episode3() {
           点击下面任意一个词，看它的注意力射线：<b className="text-slate-200">线越粗，关注越多</b>。
           选中「它」，你会看到一条醒目的射线直指「小猫」。
         </p>
+        <p className="text-xs text-slate-600">* 注意力权重为教学示意数据。</p>
       </Section>
 
       <Section

@@ -38,6 +38,7 @@ export default function Episode2() {
           <b className="text-slate-200">T 越大，分布越平坦</b>，低分词也能分到一杯羹。
           拖动滑块，亲眼看看分布如何变化。
         </p>
+        <p className="text-xs text-slate-600">* 候选词与 logit 分数为教学示意数据。</p>
       </Section>
 
       <Section

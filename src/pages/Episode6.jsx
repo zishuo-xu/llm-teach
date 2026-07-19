@@ -57,7 +57,8 @@ export default function Episode6() {
         <p>
           第一季讲的<b className="text-slate-200">推理</b>，是用一套<b className="text-slate-200">固定的参数</b>做预测；
           而<b className="text-slate-200">训练</b>，就是不断调整这些参数的过程。
-          循环只有四步，但重复几万亿次：
+          循环只有四步，但要在<b className="text-slate-200">数万亿个 token</b> 上、
+          重复<b className="text-slate-200">几十万步</b>：
         </p>
         <p>
           关键在 ③④：怎么知道"往哪边调"？调多少？—— 这就是接下来两节的主角。
@@ -106,7 +107,7 @@ export default function Episode6() {
       >
         <p>
           第五期那张"意思近住得近"的语义地图，不是人设计的 ——
-          就是这个预测-损失-下降的循环，在万亿次迭代里，
+          就是这个预测-损失-下降的循环，在数十万次迭代里，
           把出现在相似上下文中的词<b className="text-slate-200">一点一点推到一起</b>。
         </p>
         <p>

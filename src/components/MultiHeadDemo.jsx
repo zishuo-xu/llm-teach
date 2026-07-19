@@ -24,7 +24,7 @@ export default function MultiHeadDemo() {
       </div>
 
       <div className="mt-6 rounded-xl border border-slate-800 bg-night-soft/60 px-6 py-4 text-sm text-slate-400 leading-7 text-center">
-        真实模型有几十上百个头同时工作，各学各的「关系」，最后把大家的发现拼接起来 ——
+        真实模型有几十到上百个头同时工作，各学各的「关系」，最后把大家的发现拼接起来 ——
         这就是 <b className="text-slate-200">Multi-Head Attention</b>。
       </div>
     </div>

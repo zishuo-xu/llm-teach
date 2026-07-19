@@ -84,7 +84,7 @@ export default function RAGDemo() {
           {!ragOn && (
             <p className="mt-3 pt-3 border-t border-red-500/20 text-xs text-red-400">
               ❌ 工艺、核数、市场、售价 —— 全是编的。这款产品根本不在训练数据里，
-              但模型绝不会说「我不知道」。
+              但模型几乎不会主动说「我不知道」。
             </p>
           )}
         </motion.div>

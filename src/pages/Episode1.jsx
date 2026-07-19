@@ -36,6 +36,7 @@ export default function Episode1() {
         <p>
           每个 Token 对应词表里的一个数字 id，模型真正看到的，其实是一串数字。点击播放，看句子如何"裂开"。
         </p>
+        <p className="text-xs text-slate-600">* 页面中的分词结果、id 与概率均为教学示意数据。</p>
       </Section>
 
       <Section
